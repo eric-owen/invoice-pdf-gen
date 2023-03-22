@@ -20,8 +20,12 @@ for filepath in filepaths:
     pdf.cell(w=50, h=8, txt=f"Invoice# {inv_date} ", ln=1)
 
     df = pd.read_excel(filepath, sheet_name="Sheet 1")
+
     columns = df.columns
-    columns =[item.replace('_', ' ').title() for item in columns]
+    columns = [item.replace('_', ' ').title() for item in columns]
+
+    total_sum = df['total_price'].sum()
+    pdf.cell(w=30, h=8, txt='Invoice Total: ' + str(total_sum), ln=1)
 
     pdf.set_font(family="Times", size=10, style='B')
     pdf.cell(w=30, h=8, txt=columns[0], border=1)
@@ -39,5 +43,3 @@ for filepath in filepaths:
         pdf.cell(w=30, h=8, txt=str(row['total_price']), border=1, ln=1)
 
     pdf.output(f"PDFs/{inv_num}.pdf")
-
-
